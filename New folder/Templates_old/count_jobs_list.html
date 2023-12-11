@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+    <title>
+    Inventory Mannagement System
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="/static/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/static/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/static/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+    <!-- Navbar -->
+    
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <span class="badge badge-sm " style="display: revert-layer;position: relative; left: 59vw;margin-bottom: 6px; background: blue;">{{session['username']}}</span>
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-dark shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Assigned Counts</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Site</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Sloc</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Zone</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Brands</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            items</th>
+                                        <!-- <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Assigned To</th> -->
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for list in count_list%}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="/static/img/mestore.png"
+                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">Mestores</h6>
+                                                    <!-- <p class="text-xs text-secondary mb-0">{{list.TABLE_NAME}}</p> -->
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{lists[loop.index0]['Sloc']}}</p>
+                                            <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{lists[loop.index0]['zone']}}</p>
+                                            <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{lists[loop.index0]['Category']}}</p>
+                                            <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span
+                                                class="badge badge-sm bg-gradient-success">{{list.TABLE_ROWS}}</span>
+                                        </td>
+                                        <!-- <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">Default</span>
+                                        </td> -->
+                                        <td class="align-middle">
+                                            <form action="options1" method="POST" >
+                                                <button name="accepted" value="{{list.TABLE_NAME}}">Accept</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%include 'footer_credits.html'%}
+    </footer>
+    </div>
+    </main>

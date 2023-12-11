@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
+  
+  <link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <title>
+    Inventory Mannagement System
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="/static/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/static/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/static/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="http://127.0.0.1:5000/" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+<style>
+  .bg-gradient-primary {
+    background-image: linear-gradient(195deg, #4054ec 0%, #D81B60 100%);
+  }
+  .dropdown-container {
+  display: none;
+  /* background-color: #262626; */
+  padding-left: 8px;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  }
+  .hov:hover{
+    
+    display: flex;
+    width: 169px;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(195deg, #4054ec 0%, #D81B60 100%);
+  }
+  .numbadge {
+  --bs-badge-padding-x: 0.5em;
+  --bs-badge-padding-y: 0.5em;
+  --bs-badge-font-size: 0.75em;
+  --bs-badge-font-weight: 700;
+  --bs-badge-color: #fff;
+  --bs-badge-border-radius: 10rem;
+  display: inline-block;
+  padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+  font-size: var(--bs-badge-font-size);
+  font-weight: var(--bs-badge-font-weight);
+  line-height: 1;
+  color: var(--bs-badge-color);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--bs-badge-border-radius);
+  }
+</style>
+
+<body class="g-sidenav-show  bg-gray-200">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="/" target="_blank">
+        <img src="/static/img/Mecl-Logo.png" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold text-white">Inventory Management</span>
+      </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">dashboard</i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item dropbtn">
+          <a class="nav-link text-white">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">table_view</i>
+            </div>
+            <span class="nav-link-text ms-1">Created Counts</span>
+          </a>
+        </li>
+        <div class="dropdown-container">
+          <ul>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/created_jobs">All Counts</a>
+            </li>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/new_counts">New Counts</a>
+            </li>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/assigned_counts">Assigned Counts</a>
+            </li>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/pending_approval">Pending approval</a>
+            </li>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/completed_counts">Completed counts</a>
+            </li>
+          </ul>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/create_new">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">receipt_long</i>
+            </div>
+            <span class="nav-link-text ms-1">Create New Count</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/upload_file">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">view_in_ar</i>
+            </div>
+            <span class="nav-link-text ms-1">Upload File</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white active bg-gradient-primary" href="/items-and-ean">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+            </div>
+            <span class="nav-link-text ms-1">Items Management</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link text-white " href="C:/Users/Bilal Zafar/Desktop/cycle-count-system/pages/notifications.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">notifications</i>
+            </div>
+            <span class="nav-link-text ms-1">Notifications</span>
+          </a>
+        </li> -->
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/profile">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">person</i>
+            </div>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/sign-in">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">login</i>
+            </div>
+            <span class="nav-link-text ms-1">Sign out</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/count_jobs">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">login</i>
+            </div>
+            <span class="nav-link-text ms-1">Inventory Team Dash</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item dropbtn">
+          <a class="nav-link text-white ">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">assignment</i>
+            </div>
+            <span class="nav-link-text ms-1">Users</span>
+          </a>
+        </li>
+        <div class="dropdown-container">
+          <ul>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/created_jobs">All Counts</a>
+            </li>
+            <li class="hov" style="position: relative; left: 25px;">
+              <a class="text-white text-center" href="/new_counts">New Counts</a>
+            </li>
+          </ul>
+        </div> -->
+      </ul>
+    </div>
+    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+      <div class="mx-3">
+        <a class="btn btn-outline-primary mt-4 w-100" href="https://" type="button">Documentation</a>
+        <!-- <a class="btn bg-gradient-primary w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a> -->
+      </div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <!-- <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li> -->
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Home</li>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">Items Management</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Type here</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <!-- <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="https://www.creative-tim.com/builder?ref=navbar-material-dashboard">Online Builder</a> -->
+            </li>
+            <!-- <li class="mt-2">
+              <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
+            </li> -->
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+              </a>
+            </li>
+           
+             <li class="nav-item d-flex align-items-center">
+              <a href="C:/Users/Bilal Zafar/Desktop/cycle-count-system/pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none">{{session['username']}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <div class="container-fluid px-2 px-md-4" >
+        
+    </div> -->
+    <div class="shadow-success border-radius-lg pt-4 pb-3">
+        <div class="container-fluid py-4 backgroundColor text-dark">
+            <h6>Bulk Upload</h6>
+            <form action="bulk-sku-ean-update" method="post">
+                <input type="file" name="upload-items">
+                <input class="btn btn-outline-primary btn-sm mb-0 me-3" id="upload" type="submit" value="Upload">
+            </form>
+            <form action="single-sku-ean-update" method="post">
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <h6>SKU</h6>
+                            <input name="sku" title="Enter the SKU" />
+                        </td>
+                        <td>
+                            <h6>EAN</h6>
+                            <input name="ean" title="Enter the EAN" />
+                        </td>
+                        <td>
+                            <input style="top: 17px; left: 5px;" class="btn btn-outline-primary btn-sm mb-0 me-3" id="single_upload" type="submit" name="" value="single Update">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    {% if data %}
+        <br>
+        <div id="show_submited_data" class="shadow-success border-radius-lg pt-4 pb-3">
+            <div class="container-fluid py-4 backgroundColor text-dark">
+                {{data | safe}}
+            </div>
+        </div>
+    {% endif %}
+    {% if alert %}
+    <script>
+      alert("Item Updated!")
+    </script>
+    {% endif %}
+
+    <script>
+      var dropdown = document.getElementsByClassName("dropbtn");
+      var i;
+  
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+</head>

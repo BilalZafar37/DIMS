@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css" media="screen">
+        * {
+        margin: 0; 
+        padding: 0;
+        }
+        html, body {
+        overscroll-behavior: none;
+        }
+
+        div#banner { 
+            top: 0; 
+            left: 0; 
+            background-color: #107cce; 
+            width: 100vw;
+            position: sticky;
+            z-index: 100;
+            margin: 0px; 
+            padding: 0px;
+            
+        }
+        div#banner-content { 
+        white-space: nowrap;
+        width: 20vw; 
+        margin: 0 auto; 
+        padding: 0px; 
+        color: #f7eded;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: left;
+        position: sticky;
+
+        
+        /* border: 1px solid #000; */
+        }
+        div#main-content { 
+        
+        position: relative;
+        
+        /* overflow-x: scroll; */
+        }
+
+        #scan{
+        width: 100vw;
+        border-width: 10px;
+        border-bottom: 1px;
+        border-color: #10ce59;
+        /* padding:5px; */
+        height: 10vw;
+        /* margin-right: 0.5vw; */
+        /* margin-left: 0.5vw; */
+        position: sticky;
+        top: 34px;
+        z-index: 100;
+        outline: none;
+        }
+        
+        #save, #update{
+            width: 40vw;
+            height: 5vh;
+            background-color: #ffffff;
+            color: black;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid black;
+            margin-bottom: 10px;
+            
+        }
+        tfoot{
+            position: sticky;
+            z-index: 100;
+            bottom: 0px;
+            background-color: aliceblue;
+        }
+        /* hr{
+            padding-top: 1px;
+            padding-bottom: 1px;
+            color: black;
+            font-weight: bold;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            width: 100vw;
+        } */
+        table{
+            width: 100vw;
+            border-collapse: collapse;
+            
+        }
+        /* tr{
+            margin-top: 60px;
+        } */
+        td,
+        thead{
+            padding: 1rem;
+            /* position: absolute; */
+        }
+        input{
+            border:none;
+            background-color: aliceblue;
+            width: 40px;
+            text-align: center;
+            
+        }
+        ::placeholder{
+            align-items: center;
+            text-align: center;
+            
+        }
+        tr#saperator { 
+        border-bottom: 1px solid black; 
+        width: 100vw;
+        height: 5px;
+        position: sticky;
+        z-index: 100;
+        top: 0px;
+        }
+        button{
+            width: 35px;
+            height: 30px; 
+            
+            font-size: larger; 
+            font-weight: bold; 
+            background-color: #107cce;
+            color: #f7eded;
+            border: none;
+        }
+        
+    </style>
+</head>
+ 
+<body>
+    <main>
+        <div id="banner">
+            <div id="banner-content">
+               <p style="text-transform:uppercase; "> {{table.0.zone}} </p>
+            </div>
+        </div>
+        <div id="main-content">
+            <form id="myForm" action="submit_count" method="POST">
+                <table id="table">
+                    <thead>
+                        <input type="text" name="mytext" value="" placeholder="Scan EAN" id="scan" autofocus/>
+                        <tr id="saperator"></tr>
+                    </thead>
+                
+                    <!-- <tr id="bordered"></tr> -->
+                    <script language="javascript">
+                        var globalcount=0;
+                        function addRow()
+                        {
+                            document.getElementById('plus').id= "plus"+globalcount;
+                            // document.getElementById('plus').setAttribute('name', "article"+globalcount);
+                            document.getElementById('minus').id= "minus"+globalcount;
+                            // var gc = toString(globalcount)
+                            // var temp = "counter"+gc
+                            // document.getElementById('counter').setAttribute('name', "counter"+globalcount);
+                            document.getElementById('counter').id= "counter"+globalcount;
+                            
+                            globalcount++;
+                            //the rest
+                        }
+                    
+                    </script>
+                
+                    {%for row in table%}
+                    <!-- <p style="width: min-content;">{{row.Description}}</p> -->
+                    <tr id="{{row.Ean}}">
+                        <td><p style="font-weight: bold;">[{{loop.index0}}]-[{{row.Article}}]</p>  <p >Bin: {{row.Bin}}</p><p>EAN: {{row.Ean}}</p> </td>
+
+                        <td style="text-align: right;"><button id="minus" type="button" onclick="minus_counter(this)">−</button><input id="counter" name="{{row.Article}}" placeholder="0" type="number" /> <button id="plus"  type="button" onclick="plus_counter(this) ">+</button></td>
+                    </tr>
+                    <tr id="saperator"></tr>
+                    <script>addRow()</script>
+                    {% endfor %}
+                    <input id="accepted" type = "hidden" name = "accepted_sheet" value = "{{accepted_sheet_name}}" />
+                    <input id="timer" type = "hidden" name = "timer" value = "{{s}}" />
+                    
+                    <tfoot>
+                        
+                        <td>
+                            <button id="update" name="update" type="submit">update</button>
+                        </td>
+                        <td>
+                            <button id="save" type="button">Save for later</button>
+                        </td>
+                        
+                    </tfoot>
+                    
+                </table>
+            </form>
+        </div>
+        <script>
+            //bring row to top by id using EAN
+            var text = document.getElementById("scan");
+            var form = document.getElementById("code-scan");
+            // var tr = document.getElementById('1')
+            var first_row = document.getElementById('0')
+            var table = document.querySelector('table');
+            // text.onkeyup = function() {
+            document.addEventListener('keypress', function (e) {
+                if (e.key == 'Enter') {
+                    e.preventDefault()
+                    if (e.target.id !== 'update') {
+                        // form.submit();
+                        var ean = text.value
+                        console.log(ean)
+                        var row = document.getElementById(ean)
+                        if(row){
+                            // console.log("yes")
+                            // Remove the row from its current position
+                            row.parentNode.removeChild(row);
+                            // move to top
+                            table.insertBefore(row, table.firstChild);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                        }
+                        text.value = "";
+                    }
+                }
+            });   
+        </script>
+        
+        <script>
+            function plus_counter(ele){
+            const plusButtonid = ele.id
+            const plusButton = document.getElementById(plusButtonid)
+            const inputFieldid = plusButtonid.replace('plus', 'counter' )
+            const inputField = document.getElementById(inputFieldid)
+            
+
+            // plusButton.addEventListener('click', event => {
+                // event.preventDefault();
+                const currentValue = Number(inputField.value) || 0;
+                inputField.value = currentValue + 1;
+            // });
+            }
+
+            function minus_counter(ele){
+            const minusButtonid = ele.id
+            const minusButton = document.getElementById(minusButtonid)
+            const inputFieldid = minusButtonid.replace('minus', 'counter' )
+            const inputField = document.getElementById(inputFieldid)
+
+            // minusButton.addEventListener('click', event => {
+            //     event.preventDefault();
+                const currentValue = Number(inputField.value) || 0;
+                if(currentValue>0){
+                    inputField.value = currentValue - 1;
+                }
+            // });
+            }
+        </script>
+        <script>
+            document.addEventListener('submit', function(event) {
+                /* Get all input elements in the form */
+                // var inputs = document.getElementsByTagName("input");
+                
+                // console.log(inputs)
+                // console.log("script executed!")
+                // /* Iterate over all input elements and check if any of them is empty */
+                // for(var i=1; i < inputs.length-1; i++) {
+                //     console.log("for executed!")
+                //     if(inputs[i].value === "") {
+                //         event.preventDefault();
+                //         // document.preventDefault();
+                //         console.log("if executed!")
+                //         alert("Please fill out all fields!");
+                //         return
+                //     }
+                // }
+                
+                var answer = window.confirm("Are you sure about the selected options?");
+                if(answer === false){
+                    event.preventDefault(); 
+                    return
+                }
+            });
+        </script>
+    </main>
+</body>
